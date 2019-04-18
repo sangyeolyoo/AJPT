@@ -17,4 +17,4 @@
 # 참고
 -https://www.data.go.kr/
 -https://core.telegram.org/bots/api
--https://kingpodo.tistory.com/
+- API 연동, parsing https://kingpodo.tistory.com/ 참고하여 작성하였습니다.
