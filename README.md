@@ -15,6 +15,6 @@
 - API 연결
 
 # 참고
-- 공공데이터포털의 오픈 API를 https://www.data.go.kr/를 사용했습니다.
-- 텔레그램 Bot https://core.telegram.org/bots/api를 상요했습니다.
+- 공공데이터포털의 오픈 API를 https://www.data.go.kr/ 사용했습니다.
+- 텔레그램 Bot https://core.telegram.org/bots/api 했습니다.
 - API 연동, parsing https://kingpodo.tistory.com/ 참고하여 작성하였습니다.
