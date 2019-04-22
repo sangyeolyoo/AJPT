@@ -10,7 +10,6 @@ public class Dust {
 	final String URL = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty";
 	JSONObject rstObject;
 	String code;
-	String date;
 	Api api = new Api();
 
 	public Dust() {
