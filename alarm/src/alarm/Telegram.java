@@ -6,8 +6,8 @@ import java.net.URLEncoder;
 public class Telegram {
 	final String URL = "https://api.telegram.org/bot";
 	final String TOKEN = "721797475:AAGoUdjQ7wmie6rGUcgYsjCa3rGfXy8W-Ac";
+	final String chatId = "836717531";
 	String text;
-	String chatId = "836717531";
 	
 	Api api = new Api();
 

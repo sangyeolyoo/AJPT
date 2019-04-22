@@ -19,11 +19,10 @@ public class Weather {
 	
 	Api api = new Api();
 	SimpleDateFormat msdf1 = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
-	Date currentTime = new Date();
 
 	public Weather() {
 		this.code = api.CODE;
-		this.date = msdf1.format(currentTime);
+		this.date = msdf1.format(new Date());
 	}
 
 	public void getData() throws Exception {
