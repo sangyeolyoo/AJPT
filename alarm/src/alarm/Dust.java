@@ -7,30 +7,27 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class Dust {
-	JSONObject rst;
-	String url_str = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty";
+	final String URL = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty";
+	JSONObject rstObject;
 	String code;
 	String date;
 	Api api = new Api();
 
 	public Dust() {
-		this.code = api.code;
+		this.code = api.CODE;
 	}
 
 	public void getData() throws Exception {
 		String text = URLEncoder.encode("서울", "UTF-8");
-		URL url = new URL(
-				url_str + "?sidoName="+text+"&pageNo=1&numOfRows=10&ServiceKey=" 
-						+ code + "&ver=1.3&_returnType=json");
-//		System.out.println(url);
-		
+		URL url = new URL(URL + "?sidoName=" + text + "&pageNo=1&numOfRows=10&ServiceKey=" + code
+				+ "&ver=1.3&_returnType=json");
+
 		JSONObject obj = api.getApiData(url);
-		JSONArray parse_parm = (JSONArray) obj.get("list");
-		rst = (JSONObject) parse_parm.get(0);
+		JSONArray parseList = (JSONArray) obj.get("list");
+		rstObject = (JSONObject) parseList.get(0);
 	}
 
-	public String gradeConvert(String _grade) {
-		String grade = _grade;
+	public String gradeConvert(String grade) {
 		String done = "";
 
 		switch (grade) {
@@ -54,17 +51,18 @@ public class Dust {
 	}
 
 	public JSONObject getResult() {
-		return rst;
-		
+		return rstObject;
+
 	}
 
-	public int getGrade() {
-		int pm10 = Integer.parseInt((String) rst.get("pm10Grade1h"));
-		int pm25 = Integer.parseInt((String) rst.get("pm25Grade1h"));
+	public boolean getGrade() {
+		int pm10 = Integer.parseInt((String) rstObject.get("pm10Grade1h"));
+		int pm25 = Integer.parseInt((String) rstObject.get("pm25Grade1h"));
+
+		if (pm10 >= 3 || pm25 >= 3) {
+			return true;
+		}
 		
-		if (pm10 > 3 || pm25 > 3)
-			return 1;
-		else
-			return 0;
+		return false;
 	}
 }

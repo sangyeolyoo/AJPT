@@ -8,45 +8,43 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Weather {
-	JSONObject rst;
-	String url_str = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData";
+	final String URL = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData";
+	final String X = "60";
+	final String Y = "127";
+	final String TIME = "0200";
 	String code;
 	String date;
-	String x = "60";
-	String y = "127";
-	String base_date;
-	String base_time = "0200";
-	String type = "json";
+	
+	JSONObject rstObject;
+	
 	Api api = new Api();
 	SimpleDateFormat msdf1 = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
 	Date currentTime = new Date();
 
 	public Weather() {
-		this.code = api.code;
-		this.base_date = msdf1.format(currentTime);
-
+		this.code = api.CODE;
+		this.date = msdf1.format(currentTime);
 	}
 
 	public void getData() throws Exception {
-		URL url = new URL(url_str + "?ServiceKey=" + code + 
-				"&base_date=" + base_date + "&base_time=" + base_time
-				+ "&nx=" + x + "&ny=" + y + "&_type=" + type);
+		URL url = new URL(URL + "?ServiceKey=" + code + 
+				"&base_date=" + date + "&base_time=" + TIME
+				+ "&nx=" + X + "&ny=" + Y + "&_type=json");
 
 		JSONObject obj = api.getApiData(url);
-		JSONObject parse_response = (JSONObject) obj.get("response");
-		JSONObject parse_body = (JSONObject) parse_response.get("body");
-		JSONObject parse_items = (JSONObject) parse_body.get("items");
-		JSONArray parse_item = (JSONArray) parse_items.get("item");
-		rst = (JSONObject) parse_item.get(0);
-
+		JSONObject parseResponse = (JSONObject) obj.get("response");
+		JSONObject parseBody = (JSONObject) parseResponse.get("body");
+		JSONObject parseItems = (JSONObject) parseBody.get("items");
+		JSONArray parseItem = (JSONArray) parseItems.get("item");
+		rstObject = (JSONObject) parseItem.get(0);
 	}
 
 	public JSONObject getResult() {
-		return rst;
+		return rstObject;
 	}
 
 	public int getFcstvalue() {
-		return ((Long) rst.get("fcstValue")).intValue();
+		return ((Long) rstObject.get("fcstValue")).intValue();
 	}
 
 }

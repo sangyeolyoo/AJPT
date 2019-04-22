@@ -1,51 +1,43 @@
 package alarm;
 
-
 import java.util.Formatter;
 import org.json.simple.JSONObject;
 //import java.net.HttpURLConnection;
 
-/**
- * @author User
- *
- */
-
 public class App {
 
-	public static StringBuffer prtFormat(Weather w, Dust d) throws Exception {
-		StringBuffer sb = new StringBuffer();
-		Formatter f = new Formatter(sb);
-		JSONObject temp1;
+	public static StringBuffer prtFormat(Weather weather, Dust dust) throws Exception {
+		StringBuffer stringBuffer = new StringBuffer();
+		Formatter formatter = new Formatter(stringBuffer);
+		JSONObject rstObject;
 
-		temp1 = d.getResult();
-		f.format("미세먼지 농도 - %s\n", d.gradeConvert((String) temp1.get("pm10Grade1h")));
-		f.format("초미세먼지 농도 - %s\n", d.gradeConvert((String) temp1.get("pm25Grade1h")));
-		f.format("강수 확률 - %d%%\n\n", w.getFcstvalue());
+		rstObject = dust.getResult();
+		formatter.format("미세먼지 농도 - %s\n", dust.gradeConvert((String) rstObject.get("pm10Grade1h")));
+		formatter.format("초미세먼지 농도 - %s\n", dust.gradeConvert((String) rstObject.get("pm25Grade1h")));
+		formatter.format("강수 확률 - %d%%\n\n", weather.getFcstvalue());
 
-		if (w.getFcstvalue() >= 40)
-			f.format("우산을 챙기세요.\n");
-		else
-			f.format("우산을 챙기지 마세요.\n");
+		if (weather.getFcstvalue() >= 40) {
+			formatter.format("우산을 챙기세요.\n");
+		}
 
-		if (d.getGrade() == 1)
-			f.format("마스크를 챙기세요.\n");
-		else
-			f.format("마스크를 챙기지 마세요.\n");
+		if (dust.getGrade()) {
+			formatter.format("마스크를 챙기세요.\n");
+		}
 
-		return sb;
+		return stringBuffer;
 	}
 
 	public static void main(String[] args) throws Exception {
-		Telegram t = new Telegram();
-		Weather w = new Weather();
-		Dust d = new Dust();
+		Telegram telegram = new Telegram();
+		Weather weather = new Weather();
+		Dust dust = new Dust();
 
-		w.getData();
-		d.getData();
+		weather.getData();
+		dust.getData();
 
-		StringBuffer sb = new StringBuffer();
-		sb = prtFormat(w, d);
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer = prtFormat(weather, dust);
 
-		t.sendMessage(sb);
+		telegram.sendMessage(stringBuffer);
 	}
 }

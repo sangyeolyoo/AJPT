@@ -1,27 +1,26 @@
 package alarm;
 
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+//import java.net.HttpURLConnection;
 
 public class Api {
-	final String code = "JRnXD1hyDhIXsFwFZ09bYA2u8E5YtM8V4yHGcdZEiQi46Km84sD%2BzFH3GSOxKjjWOSIKInClaYAmAHDaS00BCA%3D%3D";
+	final String CODE = "JRnXD1hyDhIXsFwFZ09bYA2u8E5YtM8V4yHGcdZEiQi46Km84sD%2BzFH3GSOxKjjWOSIKInClaYAmAHDaS00BCA%3D%3D";
 
 	public Api() {   
 
 	}
 
 	public JSONObject getApiData(URL url) throws Exception {
-		JSONObject rst = null;
+		JSONObject rstObject = null;
+		InputStream is = null;
 
 		try {
-
-			InputStream is = url.openStream();
+			is = url.openStream();
 			BufferedReader inFile = new BufferedReader(new InputStreamReader(is));
 
 //			GET,POST,Timeout 옵션 설정 시, 사용 
@@ -36,17 +35,19 @@ public class Api {
 
 			while ((line = inFile.readLine()) != null) {
 				result = result.concat(line);
-//				System.out.println(line);
 			}
+			
 			JSONParser parser = new JSONParser();
-			rst = (JSONObject) parser.parse(result);
+			rstObject = (JSONObject) parser.parse(result);
 
-			is.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		finally {
+			is.close();
+		}
 
-		return rst;
+		return rstObject;
 	}
 }
